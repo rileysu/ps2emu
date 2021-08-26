@@ -1,3 +1,9 @@
+pub const NOP: Instruction = Instruction::SLL {
+    rt: 0,
+    rd: 0,
+    sa: 0,
+};
+
 pub enum Instruction {
     ADD {
         rd: u8,
@@ -298,7 +304,7 @@ pub enum Instruction {
     ORI {
         rt: u8,
         rs: u8,
-        imm: i16,
+        imm: u16,
     },
     PREF {
         hint: u8,
@@ -334,5 +340,145 @@ pub enum Instruction {
         rt: u8,
         rd: u8,
         sa: u8,
+    },
+    SLLV {
+        rd: u8,
+        rt: u8,
+        rs: u8,
+    },
+    SLT {
+        rd: u8,
+        rt: u8,
+        rs: u8,
+    },
+    SLTI {
+        rt: u8,
+        rs: u8,
+        imm: i16, 
+    },
+    SLTIU {
+        rt: u8,
+        rs: u8,
+        imm: u16, 
+    },
+    SLTU {
+        rd: u8,
+        rt: u8,
+        rs: u8,
+    },
+    SRA {
+        rt: u8,
+        rd: u8,
+        sa: u8,
+    },
+    SRAV {
+        rd: u8,
+        rt: u8,
+        rs: u8,
+    },
+    SRL {
+        rt: u8,
+        rd: u8,
+        sa: u8,
+    },
+    SRLV {
+        rd: u8,
+        rt: u8,
+        rs: u8,
+    },
+    SUB {
+        rd: u8,
+        rt: u8,
+        rs: u8,
+    },
+    SUBU {
+        rd: u8,
+        rt: u8,
+        rs: u8,
+    },
+    SW {
+        rt: u8,
+        off: u16,
+        base: u8,
+    },
+    SWL {
+        rt: u8,
+        off: u16,
+        base: u8,
+    },
+    SWR {
+        rt: u8,
+        off: u16,
+        base: u8,
+    },
+    SYNC {
+        stype: u8,
+    },
+    SYSCALL {
+        code: u32,
+    },
+    TEQ {
+        rs: u8,
+        rt: u8,
+        code: u16,
+    },
+    TEQI {
+        rs: u8,
+        imm: i16,
+    },
+    TGE {
+        rs: u8,
+        rt: u8,
+        code: u16,
+    },
+    TGEI {
+        rs: u8,
+        imm: i16,
+    },
+    TGEIU {
+        rs: u8,
+        imm: i16,
+    },
+    TGEU {
+        rs: u8,
+        rt: u8,
+        code: u16,
+    },
+    TLT {
+        rs: u8,
+        rt: u8,
+        code: u16,
+    },
+    TLTI {
+        rs: u8,
+        imm: i16,
+    },
+    TLTIU {
+        rs: u8,
+        imm: i16,
+    },
+    TLTU {
+        rs: u8,
+        rt: u8,
+        code: u16,
+    },
+    TNE {
+        rs: u8,
+        rt: u8,
+        code: u16,
+    },
+    TNEI {
+        rs: u8,
+        imm: i16,
+    },
+    XOR {
+        rd: u8,
+        rs: u8,
+        rt: u8,
+    },
+    XORI {
+        rt: u8,
+        rs: u8,
+        imm: u16,
     },
 }
