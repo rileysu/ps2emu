@@ -1,3 +1,4 @@
 mod cpu;
 mod instruction_parser;
-mod instruction;
+mod instructions;
+mod memory;

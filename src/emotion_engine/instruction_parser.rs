@@ -1,4 +1,4 @@
-use super::instruction::{NOP, Instruction};
+use super::instructions::{NOP, Instruction};
 
 enum InstructionType {
     Special {
@@ -938,7 +938,7 @@ pub fn parse_instructions(asm: &[u32]) -> Vec<Instruction> {
                     24 => parse_DADDI(asm_instruction),
                     25 => parse_DADDIU(asm_instruction),
                     26 => parse_LDL(asm_instruction),
-                    26 => parse_LDR(asm_instruction),
+                    27 => parse_LDR(asm_instruction),
                     32 => parse_LB(asm_instruction),
                     33 => parse_LH(asm_instruction),
                     34 => parse_LWL(asm_instruction),

@@ -3,7 +3,6 @@ pub const NOP: Instruction = Instruction::SLL {
     rd: 0,
     sa: 0,
 };
-
 pub enum Instruction {
     ADD {
         rd: u8,
