@@ -44,7 +44,7 @@ fn parse_ADDI(asm_instruction: &u32) -> Instruction {
     Instruction::ADDI {
         rs: (asm_instruction >> (32 - 11) & 0x1f) as u8, 
         rt: (asm_instruction >> (32 - 16) & 0x1f) as u8,
-        imm: (asm_instruction & 0xffff) as i16
+        imm: (asm_instruction & 0xffff) as u16
     }
 }
 

@@ -1,5 +1,5 @@
-const KiB: usize = 1024;
-const MiB: usize = 1024 * KiB;
+pub const KiB: usize = 1024;
+pub const MiB: usize = 1024 * KiB;
 
 pub type Address = usize;
 
@@ -17,19 +17,19 @@ enum AddressLocation {
 }
 
 pub struct Memory {
-    physical_ee_main_memory: [u8; 32 * MiB],
-    physical_io_registers: [u8; 64 * KiB],
-    physical_vu0_code_memory: [u8; 4 * KiB],
-    physical_vu0_data_memory: [u8; 4 * KiB],
-    physical_vu1_code_memory: [u8; 16 * KiB],
-    physical_vu1_data_memory: [u8; 16 * KiB],
-    physical_gs_privileged_registers: [u8; 8 * KiB],
-    physical_iop_memory: [u8; 2 * MiB],
-    physical_bios: [u8; 4 * MiB],
-    physical_scratchpad: [u8; 16 * KiB],
-    physical_gs_vram: [u8; 4 * MiB],
-    physical_spu2_work_ram: [u8; 2 * MiB],
-    physical_memory_card: [u8; 8 * MiB],
+    ee_main_memory: [u8; 32 * MiB],
+    io_registers: [u8; 64 * KiB],
+    vu0_code_memory: [u8; 4 * KiB],
+    vu0_data_memory: [u8; 4 * KiB],
+    vu1_code_memory: [u8; 16 * KiB],
+    vu1_data_memory: [u8; 16 * KiB],
+    gs_privileged_registers: [u8; 8 * KiB],
+    iop_memory: [u8; 2 * MiB],
+    bios: [u8; 4 * MiB],
+    scratchpad: [u8; 16 * KiB],
+    gs_vram: [u8; 4 * MiB],
+    spu2_work_ram: [u8; 2 * MiB],
+    memory_card: [u8; 8 * MiB],
 }
 
 fn translate_virt_address(address: Address) -> Option<AddressLocation> {
@@ -53,21 +53,21 @@ fn translate_virt_address(address: Address) -> Option<AddressLocation> {
 }
 
 impl Memory {
-    pub fn new() -> Memory {
+    pub fn new(bios: &[u8; 4 * MiB]) -> Memory {
         Memory {
-            physical_ee_main_memory: [0; 32 * MiB],
-            physical_io_registers: [0; 64 * KiB],
-            physical_vu0_code_memory: [0; 4 * KiB],
-            physical_vu0_data_memory: [0; 4 * KiB],
-            physical_vu1_code_memory: [0; 16 * KiB],
-            physical_vu1_data_memory: [0; 16 * KiB],
-            physical_gs_privileged_registers: [0; 8 * KiB],
-            physical_iop_memory: [0; 2 * MiB],
-            physical_bios: [0; 4 * MiB],
-            physical_scratchpad: [0; 16 * KiB],
-            physical_gs_vram: [0; 4 * MiB],
-            physical_spu2_work_ram: [0; 2 * MiB],
-            physical_memory_card: [0; 8 * MiB],
+            ee_main_memory: [0; 32 * MiB],
+            io_registers: [0; 64 * KiB],
+            vu0_code_memory: [0; 4 * KiB],
+            vu0_data_memory: [0; 4 * KiB],
+            vu1_code_memory: [0; 16 * KiB],
+            vu1_data_memory: [0; 16 * KiB],
+            gs_privileged_registers: [0; 8 * KiB],
+            iop_memory: [0; 2 * MiB],
+            bios: *bios,
+            scratchpad: [0; 16 * KiB],
+            gs_vram: [0; 4 * MiB],
+            spu2_work_ram: [0; 2 * MiB],
+            memory_card: [0; 8 * MiB],
         }
     }
 
@@ -77,16 +77,16 @@ impl Memory {
         let address_location = translate_virt_address(virt_address).unwrap();
 
         match address_location {
-            AddressLocation::MainEEMemory(address) => self.physical_ee_main_memory[address],
-            AddressLocation::IORegisters(address) => self.physical_iop_memory[address],
-            AddressLocation::VU0CodeMemory(address) => self.physical_vu0_code_memory[address],
-            AddressLocation::VU0DataMemory(address) => self.physical_vu0_data_memory[address],
-            AddressLocation::VU1CodeMemory(address) => self.physical_vu1_code_memory[address],
-            AddressLocation::VU1DataMemory(address) => self.physical_vu1_data_memory[address],
-            AddressLocation::GSPrivilegedRegisters(address) => self.physical_gs_privileged_registers[address],
-            AddressLocation::IOPMemory(address) => self.physical_iop_memory[address],
-            AddressLocation::BIOSMemory(address) => self.physical_bios[address],
-            AddressLocation::Scratchpad(address) => self.physical_scratchpad[address],
+            AddressLocation::MainEEMemory(address) => self.ee_main_memory[address],
+            AddressLocation::IORegisters(address) => self.iop_memory[address],
+            AddressLocation::VU0CodeMemory(address) => self.vu0_code_memory[address],
+            AddressLocation::VU0DataMemory(address) => self.vu0_data_memory[address],
+            AddressLocation::VU1CodeMemory(address) => self.vu1_code_memory[address],
+            AddressLocation::VU1DataMemory(address) => self.vu1_data_memory[address],
+            AddressLocation::GSPrivilegedRegisters(address) => self.gs_privileged_registers[address],
+            AddressLocation::IOPMemory(address) => self.iop_memory[address],
+            AddressLocation::BIOSMemory(address) => self.bios[address],
+            AddressLocation::Scratchpad(address) => self.scratchpad[address],
         }
     }
 
@@ -94,16 +94,16 @@ impl Memory {
         let address_location = translate_virt_address(virt_address).unwrap();
 
         let set_memory: &mut [u8] = match address_location {
-            AddressLocation::MainEEMemory(address) => &mut self.physical_ee_main_memory[address..address+length],
-            AddressLocation::IORegisters(address) => &mut self.physical_iop_memory[address..address+length],
-            AddressLocation::VU0CodeMemory(address) => &mut self.physical_vu0_code_memory[address..address+length],
-            AddressLocation::VU0DataMemory(address) => &mut self.physical_vu0_data_memory[address..address+length],
-            AddressLocation::VU1CodeMemory(address) => &mut self.physical_vu1_code_memory[address..address+length],
-            AddressLocation::VU1DataMemory(address) => &mut self.physical_vu1_data_memory[address..address+length],
-            AddressLocation::GSPrivilegedRegisters(address) => &mut self.physical_gs_privileged_registers[address..address+length],
-            AddressLocation::IOPMemory(address) => &mut self.physical_iop_memory[address..address+length],
-            AddressLocation::BIOSMemory(address) => &mut self.physical_bios[address..address+length],
-            AddressLocation::Scratchpad(address) => &mut self.physical_scratchpad[address..address+length],
+            AddressLocation::MainEEMemory(address) => &mut self.ee_main_memory[address..address+length],
+            AddressLocation::IORegisters(address) => &mut self.iop_memory[address..address+length],
+            AddressLocation::VU0CodeMemory(address) => &mut self.vu0_code_memory[address..address+length],
+            AddressLocation::VU0DataMemory(address) => &mut self.vu0_data_memory[address..address+length],
+            AddressLocation::VU1CodeMemory(address) => &mut self.vu1_code_memory[address..address+length],
+            AddressLocation::VU1DataMemory(address) => &mut self.vu1_data_memory[address..address+length],
+            AddressLocation::GSPrivilegedRegisters(address) => &mut self.gs_privileged_registers[address..address+length],
+            AddressLocation::IOPMemory(address) => &mut self.iop_memory[address..address+length],
+            AddressLocation::BIOSMemory(address) => &mut self.bios[address..address+length],
+            AddressLocation::Scratchpad(address) => &mut self.scratchpad[address..address+length],
         };
 
         for (memory, value) in set_memory.iter_mut().zip(values) {

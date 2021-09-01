@@ -12,7 +12,7 @@ pub enum Instruction {
     ADDI {
         rt: u8,
         rs: u8,
-        imm: i16,
+        imm: u16,
     },
     ADDUI {
         rt: u8,
