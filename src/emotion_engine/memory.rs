@@ -17,19 +17,19 @@ enum AddressLocation {
 }
 
 pub struct Memory {
-    ee_main_memory: [u8; 32 * MiB],
-    io_registers: [u8; 64 * KiB],
-    vu0_code_memory: [u8; 4 * KiB],
-    vu0_data_memory: [u8; 4 * KiB],
-    vu1_code_memory: [u8; 16 * KiB],
-    vu1_data_memory: [u8; 16 * KiB],
-    gs_privileged_registers: [u8; 8 * KiB],
-    iop_memory: [u8; 2 * MiB],
-    bios: [u8; 4 * MiB],
-    scratchpad: [u8; 16 * KiB],
-    gs_vram: [u8; 4 * MiB],
-    spu2_work_ram: [u8; 2 * MiB],
-    memory_card: [u8; 8 * MiB],
+    ee_main_memory: Box<[u8; 32 * MiB]>,
+    io_registers: Box<[u8; 64 * KiB]>,
+    vu0_code_memory: Box<[u8; 4 * KiB]>,
+    vu0_data_memory: Box<[u8; 4 * KiB]>,
+    vu1_code_memory: Box<[u8; 16 * KiB]>,
+    vu1_data_memory: Box<[u8; 16 * KiB]>,
+    gs_privileged_registers: Box<[u8; 8 * KiB]>,
+    iop_memory: Box<[u8; 2 * MiB]>,
+    bios: Box<[u8; 4 * MiB]>,
+    scratchpad: Box<[u8; 16 * KiB]>,
+    gs_vram: Box<[u8; 4 * MiB]>,
+    spu2_work_ram: Box<[u8; 2 * MiB]>,
+    memory_card: Box<[u8; 8 * MiB]>,
 }
 
 fn translate_virt_address(address: Address) -> Option<AddressLocation> {
@@ -53,21 +53,21 @@ fn translate_virt_address(address: Address) -> Option<AddressLocation> {
 }
 
 impl Memory {
-    pub fn new(bios: [u8; 4 * MiB]) -> Memory {
+    pub fn new(bios: &[u8; 4 * MiB]) -> Memory {
         Memory {
-            ee_main_memory: [0; 32 * MiB],
-            io_registers: [0; 64 * KiB],
-            vu0_code_memory: [0; 4 * KiB],
-            vu0_data_memory: [0; 4 * KiB],
-            vu1_code_memory: [0; 16 * KiB],
-            vu1_data_memory: [0; 16 * KiB],
-            gs_privileged_registers: [0; 8 * KiB],
-            iop_memory: [0; 2 * MiB],
-            bios: bios,
-            scratchpad: [0; 16 * KiB],
-            gs_vram: [0; 4 * MiB],
-            spu2_work_ram: [0; 2 * MiB],
-            memory_card: [0; 8 * MiB],
+            ee_main_memory: Box::new([0; 32 * MiB]),
+            io_registers: Box::new([0; 64 * KiB]),
+            vu0_code_memory: Box::new([0; 4 * KiB]),
+            vu0_data_memory: Box::new([0; 4 * KiB]),
+            vu1_code_memory: Box::new([0; 16 * KiB]),
+            vu1_data_memory: Box::new([0; 16 * KiB]),
+            gs_privileged_registers: Box::new([0; 8 * KiB]),
+            iop_memory: Box::new([0; 2 * MiB]),
+            bios: Box::new(*bios),
+            scratchpad: Box::new([0; 16 * KiB]),
+            gs_vram: Box::new([0; 4 * MiB]),
+            spu2_work_ram: Box::new([0; 2 * MiB]),
+            memory_card: Box::new([0; 8 * MiB]),
         }
     }
 

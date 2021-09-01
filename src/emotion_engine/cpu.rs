@@ -20,7 +20,7 @@ pub struct Cpu {
 }
 
 impl Cpu {
-    pub fn new(bios: [u8; 4 * MiB], pc: u32) -> Cpu {
+    pub fn new(bios: &[u8; 4 * MiB], pc: u32) -> Cpu {
         println!("Hello Debug!");
 
         Cpu {
@@ -101,6 +101,6 @@ pub mod test {
     use super::super::memory::MiB;
 
     pub fn create_mock_cpu() -> Cpu {
-        Cpu::new([0u8; 4 * MiB], 0)
+        Cpu::new(&[0u8; 4 * MiB], 0)
     }
 }

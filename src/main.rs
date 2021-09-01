@@ -2,7 +2,8 @@ mod emotion_engine;
 mod io;
 
 fn main() {
-    let mut cpu = emotion_engine::Cpu::new([0u8; 4 * 1024 * 1024], 0);
+    let bios_data = Box::new([0u8; 4 * 1024 * 1024]);
+    let mut cpu = emotion_engine::Cpu::new(&bios_data, 0);
 
     let rd: u8 = 1;
     let rs: u8 = 2;
