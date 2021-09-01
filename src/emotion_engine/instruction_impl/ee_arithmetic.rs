@@ -274,6 +274,11 @@ mod test {
 
     #[test]
     fn test_add_unsigned() {
+        let a = 0;
+        let b = 1;
+
+        let c = a + b;
+
         let mut cpu = create_mock_cpu();
         
         let rd: u8 = 1;
@@ -285,7 +290,6 @@ mod test {
 
         ADD(&mut cpu, rd, rs, rt);
 
-        assert!(!cpu.exception_indicator);
         assert_eq!(cpu.read_ee_register_32(1), 3);
     }
 }

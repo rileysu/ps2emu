@@ -53,7 +53,7 @@ fn translate_virt_address(address: Address) -> Option<AddressLocation> {
 }
 
 impl Memory {
-    pub fn new(bios: &[u8; 4 * MiB]) -> Memory {
+    pub fn new(bios: [u8; 4 * MiB]) -> Memory {
         Memory {
             ee_main_memory: [0; 32 * MiB],
             io_registers: [0; 64 * KiB],
@@ -63,7 +63,7 @@ impl Memory {
             vu1_data_memory: [0; 16 * KiB],
             gs_privileged_registers: [0; 8 * KiB],
             iop_memory: [0; 2 * MiB],
-            bios: *bios,
+            bios: bios,
             scratchpad: [0; 16 * KiB],
             gs_vram: [0; 4 * MiB],
             spu2_work_ram: [0; 2 * MiB],

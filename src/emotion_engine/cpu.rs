@@ -17,12 +17,12 @@ pub struct Cpu {
     pub lo1: u64,
     pub sa: u32,
     pub memory: Memory,
-    #[cfg(test)]
-    pub exception_indicator: bool,
 }
 
 impl Cpu {
-    fn new(bios: &[u8; 4 * MiB], pc: u32) -> Cpu {
+    pub fn new(bios: [u8; 4 * MiB], pc: u32) -> Cpu {
+        println!("Hello Debug!");
+
         Cpu {
             ee_registers: [0; 32],
             pc,
@@ -32,8 +32,6 @@ impl Cpu {
             lo1: 0,
             sa: 0,
             memory: Memory::new(bios),
-            #[cfg(test)]
-            exception_indicator: false,
         }
     }
 
@@ -83,17 +81,9 @@ impl Cpu {
         //idk
     }
 
-
-    #[cfg(test)]
     #[inline(always)]
     pub fn execute_instruction(&mut self, instruction: Instruction) {
         
-    }
-
-    #[cfg(not(test))]
-    #[inline(always)]
-    pub fn execute_instruction(&mut self, instruction: Instruction) {
-        //Add all instructions
     }
 
     fn execute(&mut self, address: usize) {
@@ -111,6 +101,6 @@ pub mod test {
     use super::super::memory::MiB;
 
     pub fn create_mock_cpu() -> Cpu {
-        Cpu::new(&[0u8; 4 * MiB], 0)
+        Cpu::new([0u8; 4 * MiB], 0)
     }
 }
