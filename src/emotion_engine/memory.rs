@@ -17,19 +17,19 @@ enum AddressLocation {
 }
 
 pub struct Memory {
-    ee_main_memory: Box<[u8; 32 * MiB]>,
-    io_registers: Box<[u8; 64 * KiB]>,
-    vu0_code_memory: Box<[u8; 4 * KiB]>,
-    vu0_data_memory: Box<[u8; 4 * KiB]>,
-    vu1_code_memory: Box<[u8; 16 * KiB]>,
-    vu1_data_memory: Box<[u8; 16 * KiB]>,
-    gs_privileged_registers: Box<[u8; 8 * KiB]>,
-    iop_memory: Box<[u8; 2 * MiB]>,
-    bios: Box<[u8; 4 * MiB]>,
-    scratchpad: Box<[u8; 16 * KiB]>,
-    gs_vram: Box<[u8; 4 * MiB]>,
-    spu2_work_ram: Box<[u8; 2 * MiB]>,
-    memory_card: Box<[u8; 8 * MiB]>,
+    ee_main_memory: Box<[u8]>,
+    io_registers: Box<[u8]>,
+    vu0_code_memory: Box<[u8]>,
+    vu0_data_memory: Box<[u8]>,
+    vu1_code_memory: Box<[u8]>,
+    vu1_data_memory: Box<[u8]>,
+    gs_privileged_registers: Box<[u8]>,
+    iop_memory: Box<[u8]>,
+    bios: Box<[u8]>,
+    scratchpad: Box<[u8]>,
+    gs_vram: Box<[u8]>,
+    spu2_work_ram: Box<[u8]>,
+    memory_card: Box<[u8]>,
 }
 
 fn translate_virt_address(address: Address) -> Option<AddressLocation> {
@@ -55,19 +55,19 @@ fn translate_virt_address(address: Address) -> Option<AddressLocation> {
 impl Memory {
     pub fn new(bios: &[u8; 4 * MiB]) -> Memory {
         Memory {
-            ee_main_memory: Box::new([0; 32 * MiB]),
-            io_registers: Box::new([0; 64 * KiB]),
-            vu0_code_memory: Box::new([0; 4 * KiB]),
-            vu0_data_memory: Box::new([0; 4 * KiB]),
-            vu1_code_memory: Box::new([0; 16 * KiB]),
-            vu1_data_memory: Box::new([0; 16 * KiB]),
-            gs_privileged_registers: Box::new([0; 8 * KiB]),
-            iop_memory: Box::new([0; 2 * MiB]),
+            ee_main_memory: vec![0; 32 * MiB].into_boxed_slice(),
+            io_registers: vec![0; 64 * KiB].into_boxed_slice(),
+            vu0_code_memory: vec![0; 4 * KiB].into_boxed_slice(),
+            vu0_data_memory: vec![0; 4 * KiB].into_boxed_slice(),
+            vu1_code_memory: vec![0; 16 * KiB].into_boxed_slice(),
+            vu1_data_memory: vec![0; 16 * KiB].into_boxed_slice(),
+            gs_privileged_registers: vec![0; 8 * KiB].into_boxed_slice(),
+            iop_memory: vec![0; 2 * MiB].into_boxed_slice(),
             bios: Box::new(*bios),
-            scratchpad: Box::new([0; 16 * KiB]),
-            gs_vram: Box::new([0; 4 * MiB]),
-            spu2_work_ram: Box::new([0; 2 * MiB]),
-            memory_card: Box::new([0; 8 * MiB]),
+            scratchpad: vec![0; 16 * KiB].into_boxed_slice(),
+            gs_vram: vec![0; 4 * MiB].into_boxed_slice(),
+            spu2_work_ram: vec![0; 2 * MiB].into_boxed_slice(),
+            memory_card: vec![0; 8 * MiB].into_boxed_slice(),
         }
     }
 
